@@ -1,10 +1,23 @@
-import Head from 'next/head';
-import Header from '@components/Header';
-import Footer from '@components/Footer';
-import YouTube from 'react-youtube';
+import Head from 'next/head'
+import Header from '@components/Header'
+import Footer from '@components/Footer'
+import YouTube from 'react-youtube'
+import { useState } from 'react'
 
 export default function Home() {
-  const videoId = 'uYuOaES7PDA'; // replace with your YouTube video ID
+  const opts = {
+    height: '390',
+    width: '640',
+    playerVars: {
+      autoplay: 0,
+    },
+  }
+
+  const [showVideos, setShowVideos] = useState(false)
+
+  const handleShowVideos = () => {
+    setShowVideos(true)
+  }
 
   return (
     <div className="container">
@@ -16,21 +29,31 @@ export default function Home() {
       <main>
         <Header title="Welcome! You have found my secret website!" />
         <p className="description">
-          Take a look at some of my projects.
+           Take a look at some of my projects.
         </p>
-        <div class="react-player-wrapper">
-          <div class="react-player">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/uYuOaES7PDA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-        </div>
-        <div class="react-player-wrapper">
-          <div class="react-player">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/uYuOaES7PDA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-        </div>
+        <button onClick={handleShowVideos}>Time to explore!</button>
+        {showVideos && (
+          <>
+            <div className="video-container">
+              <YouTube videoId="uYuOaES7PDA" opts={opts} />
+            </div>
+            <div className="next-video-button-container">
+              <a href="#video2">Next Video &gt;</a>
+            </div>
+            <div id="video2" className="video-container">
+              <YouTube videoId="PxjKNODUk1A" opts={opts} />
+            </div>
+            <div className="next-video-button-container">
+              <a href="#video3">Next Video &gt;</a>
+            </div>
+            <div id="video3" className="video-container">
+              <YouTube videoId="lGnazT38vWc" opts={opts} />
+            </div>
+          </>
+        )}
       </main>
 
       <Footer />
     </div>
-  );
+  )
 }
