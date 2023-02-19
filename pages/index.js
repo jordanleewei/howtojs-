@@ -1,104 +1,41 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import Header from '@components/Header';
-import Footer from '@components/Footer';
+import Link from 'next/link';
+import styles from '../styles/Home.module.css';
 import ReactPlayer from 'react-player';
 
 export default function Home() {
-  const [showVideo, setShowVideo] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
-  const handleShowVideo = () => {
-    setShowVideo(true);
+  const handleVisible = () => {
+    setIsVisible(true);
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <Head>
-        <title>Next.js Starter!</title>
+        <title>My Portfolio</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <Header title="Welcome! You have found my secret website!" />
-        <p className="description">Take a look at some of my projects.</p>
+      <main className={styles.main}>
+        <h1 className={styles.title}>Welcome to My Portfolio</h1>
 
-        <button className="explore-button" onClick={handleShowVideo}>
+        <button onClick={handleVisible} className={styles.button}>
           Time to explore!
         </button>
 
-        {showVideo && (
-          <div className="video-container">
-            <ReactPlayer
-              url="https://www.youtube.com/watch?v=uYuOaES7PDA"
-              width="100%"
-              height="100%"
-            />
-            <div className="scroll-button" onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>
-              Scroll to next video
-            </div>
+        <div
+          className={styles.videoContainer}
+          style={{ opacity: isVisible ? 1 : 0 }}
+        >
+          <div className={styles.videoList}>
+            <ReactPlayer url="https://www.youtube.com/watch?v=uYuOaES7PDA" width="100%" height="100%" />
+            <ReactPlayer url="https://www.youtube.com/watch?v=PxjKNODUk1A" width="100%" height="100%" />
+            <ReactPlayer url="https://www.youtube.com/watch?v=lGnazT38vWc" width="100%" height="100%" />
           </div>
-        )}
+        </div>
       </main>
-
-      <Footer />
-
-      <style jsx>{`
-        .explore-button {
-          background-color: #f53b57;
-          border: none;
-          border-radius: 8px;
-          color: #fff;
-          cursor: pointer;
-          font-size: 24px;
-          padding: 16px;
-          transition: opacity 0.5s;
-        }
-
-        .explore-button:hover {
-          opacity: 0.8;
-        }
-
-        .video-container {
-          opacity: 0;
-          transition: opacity 1s;
-        }
-
-        .video-container.show {
-          opacity: 1;
-        }
-
-        .scroll-button {
-          background-color: #f53b57;
-          border: none;
-          border-radius: 8px;
-          color: #fff;
-          cursor: pointer;
-          font-size: 18px;
-          padding: 12px 24px;
-          position: absolute;
-          right: 32px;
-          top: 50%;
-          transform: translateY(-50%);
-          transition: opacity 0.5s;
-        }
-
-        .scroll-button:hover {
-          opacity: 0.8;
-        }
-      `}</style>
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-            Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
     </div>
   );
 }
