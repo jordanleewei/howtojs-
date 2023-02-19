@@ -9,14 +9,21 @@ export default function Home() {
     height: '390',
     width: '640',
     playerVars: {
+      // https://developers.google.com/youtube/player_parameters
       autoplay: 0,
     },
   }
-
-  const [showVideos, setShowVideos] = useState(false)
+  
+  const [showVideos, setShowVideos] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState(0);
 
   const handleShowVideos = () => {
-    setShowVideos(true)
+    setShowVideos(true);
+  }
+
+  const handleNextVideo = () => {
+    setCurrentVideo(currentVideo + 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   return (
@@ -31,26 +38,27 @@ export default function Home() {
         <p className="description">
            Take a look at some of my projects.
         </p>
-        <button onClick={handleShowVideos}>Time to explore!</button>
-        {showVideos && (
-          <>
+        {!showVideos &&
+          <button onClick={handleShowVideos}>Time to explore!</button>
+        }
+        {showVideos &&
+          <div>
             <div className="video-container">
-              <YouTube videoId="uYuOaES7PDA" opts={opts} />
+              {currentVideo === 0 &&
+                <YouTube videoId="uYuOaES7PDA" opts={opts} onReady={(event) => event.target.playVideo()} />
+              }
+              {currentVideo === 1 &&
+                <YouTube videoId="PxjKNODUk1A" opts={opts} onReady={(event) => event.target.playVideo()} />
+              }
+              {currentVideo === 2 &&
+                <YouTube videoId="lGnazT38vWc" opts={opts} onReady={(event) => event.target.playVideo()} />
+              }
             </div>
-            <div className="next-video-button-container">
-              <a href="#video2">Next Video &gt;</a>
+            <div className="video-controls">
+              <button onClick={handleNextVideo} disabled={currentVideo === 2}>Next Video</button>
             </div>
-            <div id="video2" className="video-container">
-              <YouTube videoId="PxjKNODUk1A" opts={opts} />
-            </div>
-            <div className="next-video-button-container">
-              <a href="#video3">Next Video &gt;</a>
-            </div>
-            <div id="video3" className="video-container">
-              <YouTube videoId="lGnazT38vWc" opts={opts} />
-            </div>
-          </>
-        )}
+          </div>
+        }
       </main>
 
       <Footer />
