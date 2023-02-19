@@ -11,9 +11,9 @@ export default function Home() {
       </Head>
 
       <main>
-        <Header title="Welcome! You have found the secret website!" />
+        <Header title="Welcome! You have found my secret website!" />
         <p className="description">
-           Take a look at some of my projects.<code>pages/index.js</code>
+           Take a look at some of my projects.
         </p>
       </main>
 
