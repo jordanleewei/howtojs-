@@ -6,11 +6,12 @@ import { useState } from 'react'
 
 export default function Home() {
   const opts = {
-    height: '390',
-    width: '640',
+    height: '600',
+    width: '800',
     playerVars: {
       // https://developers.google.com/youtube/player_parameters
       autoplay: 0,
+      mute: 1, // Add this line to mute the video
     },
   }
   
@@ -39,7 +40,7 @@ export default function Home() {
            Take a look at some of my projects.
         </p>
         {!showVideos &&
-          <button onClick={handleShowVideos}>Time to explore!</button>
+          <button class="button" onClick={handleShowVideos}>Time to explore!</button>
         }
         {showVideos &&
           <div>
