@@ -1,41 +1,67 @@
-import { useState } from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import styles from '../styles/globals.css';
-import ReactPlayer from 'react-player';
+import Head from 'next/head'
+import Header from '@components/Header'
+import Footer from '@components/Footer'
+import YouTube from 'react-youtube'
+import { useState } from 'react'
 
 export default function Home() {
-  const [isVisible, setIsVisible] = useState(false);
+  const opts = {
+    height: '390',
+    width: '640',
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters
+      autoplay: 0,
+    },
+  }
+  
+  const [showVideos, setShowVideos] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState(0);
 
-  const handleVisible = () => {
-    setIsVisible(true);
-  };
+  const handleShowVideos = () => {
+    setShowVideos(true);
+  }
+
+  const handleNextVideo = () => {
+    setCurrentVideo(currentVideo + 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       <Head>
-        <title>My Portfolio</title>
+        <title>Next.js Starter!</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to My Portfolio</h1>
-
-        <button onClick={handleVisible} className={styles.button}>
-          Time to explore!
-        </button>
-
-        <div
-          className={styles.videoContainer}
-          style={{ opacity: isVisible ? 1 : 0 }}
-        >
-          <div className={styles.videoList}>
-            <ReactPlayer url="https://www.youtube.com/watch?v=uYuOaES7PDA" width="100%" height="100%" />
-            <ReactPlayer url="https://www.youtube.com/watch?v=PxjKNODUk1A" width="100%" height="100%" />
-            <ReactPlayer url="https://www.youtube.com/watch?v=lGnazT38vWc" width="100%" height="100%" />
+      <main>
+        <Header title="Welcome! You have found my secret website!" />
+        <p className="description">
+           Take a look at some of my projects.
+        </p>
+        {!showVideos &&
+          <button onClick={handleShowVideos}>Time to explore!</button>
+        }
+        {showVideos &&
+          <div>
+            <div className="video-container">
+              {currentVideo === 0 &&
+                <YouTube videoId="uYuOaES7PDA" opts={opts} onReady={(event) => event.target.playVideo()} />
+              }
+              {currentVideo === 1 &&
+                <YouTube videoId="PxjKNODUk1A" opts={opts} onReady={(event) => event.target.playVideo()} />
+              }
+              {currentVideo === 2 &&
+                <YouTube videoId="lGnazT38vWc" opts={opts} onReady={(event) => event.target.playVideo()} />
+              }
+            </div>
+            <div className="video-controls">
+              <button onClick={handleNextVideo} disabled={currentVideo === 2}>Next Video</button>
+            </div>
           </div>
-        </div>
+        }
       </main>
+
+      <Footer />
     </div>
-  );
+  )
 }
